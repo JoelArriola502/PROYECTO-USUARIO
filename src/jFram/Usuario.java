@@ -17,18 +17,10 @@ public class Usuario extends javax.swing.JFrame {
      */
     public Usuario() {
         initComponents();
-         Mostrar Mostrar=new Mostrar();
-        Mostrar.setSize(609,469);
-        Mostrar.setLocation(0, 0);
-        jPanelMostrar.removeAll();
-        jPanelMostrar.add(Mostrar,BorderLayout.CENTER);
-        jPanelMostrar.revalidate();
-        jPanelMostrar.repaint();
-      
-        
+     
     }
 public void Mostrar(){
-      Mostrar Mostrar=new Mostrar();
+      MostrarDatos Mostrar=new MostrarDatos();
         Mostrar.setSize(609,469);
         Mostrar.setLocation(0, 0);
         jPanelMostrar.removeAll();
@@ -37,7 +29,7 @@ public void Mostrar(){
         jPanelMostrar.repaint();
 }
 public void Ingresar(){
-      Ingresar Inrgesar=new Ingresar();
+      IngresarDatos Inrgesar=new IngresarDatos();
         Inrgesar.setSize(609,469);
         Inrgesar.setLocation(0, 0);
         jPanelMostrar.removeAll();
@@ -152,7 +144,7 @@ public void Ingresar(){
     }//GEN-LAST:event_jButtonUsuarioActionPerformed
 
     private void jButtonMostrarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarDatosActionPerformed
-        // TODO add your handling code here:
+        Mostrar();
     }//GEN-LAST:event_jButtonMostrarDatosActionPerformed
 
     /**
