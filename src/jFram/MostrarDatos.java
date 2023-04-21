@@ -4,6 +4,19 @@
  */
 package jFram;
 
+
+import java.sql.ResultSet;
+import java.sql.Connection;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
+
+import javax.swing.text.TableView;
+
 /**
  *
  * @author Joel Arriola
@@ -15,8 +28,45 @@ public class MostrarDatos extends javax.swing.JPanel {
      */
     public MostrarDatos() {
         initComponents();
+        lista(tbLista);
     }
-
+void lista(JTable ParametroLista){
+    
+    Conexion Conectar=new Conexion();
+    Connection ConectarBD=Conectar.Conectar();
+    DefaultTableModel modelo =new DefaultTableModel();//creamos modelo esta vacio
+    TableRowSorter<TableModel> OrdenarTabla=new TableRowSorter<TableModel>(modelo);
+    ParametroLista.setRowSorter(OrdenarTabla);// ordenado
+    
+    String query="select *from usuario";
+    modelo.addColumn("idUsuario");
+    modelo.addColumn("Usuario");
+    modelo.addColumn("Contraseña");
+    ParametroLista.setModel(modelo);// a nuestra variable le pasamos el modelo
+      
+    String[] Datos=new String[3];
+    Statement Guardar;
+    try {
+        Guardar=Conectar.Conectar().createStatement();
+        ResultSet mostrar;
+        mostrar=Guardar.executeQuery(query);
+        while(mostrar.next()){
+            Datos[0]=mostrar.getString(1);
+            Datos[1]=mostrar.getString(2);
+            Datos[2]=mostrar.getString(3);
+            modelo.addRow(Datos);
+            
+            
+        }
+        ParametroLista.setModel(modelo);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "NO SE PUEDEN MOSTRAR LOS REGISTROS"+e.toString());
+    }
+    
+    
+    
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,42 +77,37 @@ public class MostrarDatos extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbLista = new javax.swing.JTable();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("MOSTRAR REGISTROS");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tbLista.setBackground(new java.awt.Color(255, 204, 204));
+        tbLista.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(261, 261, 261)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(304, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(353, Short.MAX_VALUE))
-        );
+            }
+        ));
+        jScrollPane1.setViewportView(tbLista);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 470));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 470));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbLista;
     // End of variables declaration//GEN-END:variables
 }
